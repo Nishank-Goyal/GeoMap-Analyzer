@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Flask NBR Planning</title>
+    <style>
+        /* Add this CSS rule to prevent wrapping of buttons */
+        .button-container form:last-child {
+            margin-right: 0; /* Remove margin for the last button */
+        }
+        body {
+            margin: 20px;
+        }
+        
+        .button-container {
+            display: flex; /* Use flexbox to arrange buttons horizontally */
+            margin-top: 10px;
+            margin-bottom: 10px;
+        }
+
+        .button-container form {
+            display: flex;
+            margin-right: 10px; /* Add some spacing between buttons */
+        }
+
+        .download-button {
+            display: inline-block;
+            padding: 10px 20px;
+            background-color: #007bff; /* Button background color */
+            color: #fff; /* Button text color */
+            text-decoration: none; /* Remove underlines */
+            border: none;
+            border-radius: 4px;
+        }
+    </style>
+</head>
+<body>
+    <div class="button-container">
+        <form action="/upload_kpi" method="post" enctype="multipart/form-data">
+            <input type="file" name="file">
+            <input type="submit" value="Upload File">
+        </form>
+
+        <form action="/process_files" method="post">
+            <input type="submit" value="Generate Output">
+        </form>
+
+        <!-- <form action="/plan_nbr" method="post">
+            <input type="submit" value="Plan Neighbors">
+        </form> -->
+
+        <form action="/list_files_kpi" method="get">
+            <input type="submit" value="List Files">
+        </form>
+
+        <form action="/nbr" method="get">
+            <input type="submit" value="NBR">
+        </form>
+
+        <!-- Add a download button to download the combined data file -->
+        <a href="{{ url_for('kpi_app.download_combined_file') }}" download="Core_KPIs.xlsx" class="download-button" role="button">Download Combined Data</a>
+
+    </div>
+    <h3>Combined KPI Data</h3>
+    <table border="1">
+        <tr>
+            <th>Date</th>
+            <th>Hour</th>
+            <th>KPI Name</th>
+            <th>KPI ID</th>
+            <th>MSC Name</th>
+            <th>Element ID</th>
+            <th>Numerator</th>
+            <th>Denominator</th>
+            <th>Final</th>
+            <th>Unit</th>
+        </tr>
+        {% for index, row in combined_data.iterrows() %}
+        <tr>
+            <td>{{ row['Date'] }}</td>
+            <td>{{ row['Hour'] }}</td>
+            <td>{{ row['Kpi_Name'] }}</td>
+            <td>{{ row['Kpi_Id'] }}</td>
+            <td>{{ row['MSC_Name'] }}</td>
+            <td>{{ row['Element_Id'] }}</td>
+            <td>{{ row['Numerator'] }}</td>
+            <td>{{ row['Denominator'] }}</td>
+            <td>{{ row['Final'] }}</td>
+            <td>{{ row['Unit'] }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+</body>
+</html>

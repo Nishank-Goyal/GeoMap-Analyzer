@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>List of Files</title>
+    <style>
+        .button-container {
+            display: flex; /* Use flexbox to arrange buttons horizontally */
+            margin-bottom: 25px;
+        }
+
+        .button-container form {
+            margin-right: 10px; /* Add some spacing between buttons */
+        }
+
+        /* Add this CSS rule to prevent wrapping of buttons */
+        .button-container form:last-child {
+            margin-right: 0; /* Remove margin for the last button */
+        }
+        body {
+            text-align: center;
+        }
+        table {
+            margin: 0 auto;
+            border-collapse: collapse;
+            width: 80%; /* Adjust the width of the table */
+        }
+        th, td {
+            padding: 10px;
+            border: 1px solid #000;
+            text-overflow: ellipsis; /* Add ellipsis to handle long text */
+            white-space: nowrap; /* Prevent text from wrapping */
+            overflow: hidden;
+        }
+    </style>
+</head>
+<body>
+    <div class="button-container">
+        <form action="/upload" method="post" enctype="multipart/form-data">
+            <input type="file" name="file">
+            <input type="submit" value="Upload File">
+        </form>
+
+        <form action="/generate_map" method="post">
+            <input type="submit" value="Generate Map">
+        </form>
+
+        <form action="/plan_nbr" method="post">
+            <input type="submit" value="Plan Neighbors">
+        </form>
+
+        <form action="/list_files" method="get">
+            <input type="submit" value="List Files">
+        </form>
+
+        <form action="/core_kpi" method="get">
+            <input type="submit" value="Core kpi">
+        </form>
+    </div>
+    <table>
+        <thead>
+            <tr>
+                <th>Input</th>
+                <th>Map</th>
+                <th>NBR Output</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for file in files %}
+                <tr>
+                    <td>{{ file.filename }}</td>
+                    <td>
+                        {% if file.map_exists %}
+                            <a href="{{ url_for('nbr_app.download_map', file=remove_extension(file.filename)) }}" download="{{ remove_extension(file.filename) }}_map.html">{{ remove_extension(file.filename) }}_map.html</a>
+                        {% else %}
+                            N/A
+                        {% endif %}
+                    </td>
+                    <td>
+                        {% if file.nbr_exists %}
+                            <a href="{{ url_for('nbr_app.download_nbr_relations', file=remove_extension(file.filename)) }}" download="{{ remove_extension(file.filename) }}_NBR_Relations.xlsx">{{ remove_extension(file.filename) }}_NBR_Relations.xlsx</a>
+                        {% else %}
+                            N/A
+                        {% endif %}
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</body>
+</html>

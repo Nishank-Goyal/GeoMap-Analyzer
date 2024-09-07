@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>List of Output Files</title>
+    <style>
+        .button-container {
+            display: flex;
+            margin-bottom: 25px;
+        }
+
+        body {
+            text-align: center;
+        }
+
+        table {
+            margin: 0 auto;
+            border-collapse: collapse;
+            width: 80%;
+        }
+
+        th, td {
+            padding: 10px;
+            border: 1px solid #000;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            overflow: hidden;
+        }
+    </style>
+</head>
+<body>
+    <div class="button-container">
+        <form action="/upload_kpi" method="post" enctype="multipart/form-data">
+            <input type="file" name="file">
+            <input type="submit" value="Upload File">
+        </form>
+
+        <form action="/process_files" method="post">
+            <input type="submit" value="Generate Output">
+        </form>
+
+        <form action="/list_files_kpi" method="get">
+            <input type="submit" value="List Files">
+        </form>
+
+        <form action="/nbr" method="get">
+            <input type="submit" value="NBR">
+        </form>
+    </div>
+    <h1>List of Output Files</h1>
+    <table>
+        <tr>
+            <th>File Name</th>
+            <th>Download</th>
+        </tr>
+        {% for file in files %}
+            <tr>
+                <td>{{ file }}</td>
+                <td><a href="/download_file/{{ file }}" download>Download</a></td>
+            </tr>
+        {% endfor %}
+    </table>
+</body>
+</html>

@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Flask NBR Planning</title>
+    <style>
+        .button-container {
+            display: flex; /* Use flexbox to arrange buttons horizontally */
+        }
+
+        .button-container form {
+            margin-right: 10px; /* Add some spacing between buttons */
+        }
+
+        /* Add this CSS rule to prevent wrapping of buttons */
+        .button-container form:last-child {
+            margin-right: 0; /* Remove margin for the last button */
+        }
+    </style>
+</head>
+<body>
+    <div class="button-container">
+        <form action="/upload" method="post" enctype="multipart/form-data">
+            <input type="file" name="file">
+            <input type="submit" value="Upload File">
+        </form>
+
+        <form action="/generate_map" method="post">
+            <input type="submit" value="Generate Map">
+        </form>
+
+        <form action="/plan_nbr" method="post">
+            <input type="submit" value="Plan Neighbors">
+        </form>
+
+        <form action="/list_files" method="get">
+            <input type="submit" value="List Files">
+        </form>
+
+        <form action="/core_kpi" method="get">
+            <input type="submit" value="Core kpi">
+        </form>
+    </div>
+</body>
+</html>
